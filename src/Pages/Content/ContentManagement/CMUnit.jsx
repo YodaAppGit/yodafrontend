@@ -18,12 +18,22 @@ export default function CMUnit(props) {
   console.log("props CMUnit", props);
 
   const [ActiveSubPage, setActiveSubPage] = useState(0);
+  console.log(ActiveSubPage);
   // const { currentSubTab } = props;
   const [DeleteButton, setDeleteButton] = useState(false);
 
   // reRender digunakan untuk meload data kembali setelah hapus
   const [reRender, setRerender] = useState(false);
-  const [DeleteChosenId, setDeleteChosenId] = useState([]);
+  const [DeleteChosenId, setDeleteChosenId] = useState({
+    "merek-model-varian":[],
+    "tahun-pembuatan":[],
+    "jarak-tempuh":[],
+    "warna":[],
+    "bahan-bakar":[],
+    "transmisi":[],
+    "kondisi":[],
+    "jenis-unit":[],
+  });
   const [DeleteType, setDeleteType] = useState(false);
   const [Deleted, setDeleted] = useState(false);
   const { currentSubTab, dataSort, isFilter, filteredDataTahun, reload } =
@@ -40,17 +50,22 @@ export default function CMUnit(props) {
   };
 
   const changeIcons = (val, type) => {
+    console.log(val,"VAL43");
+    console.log(type,"TYPE44");
     setDeleteButton(val.length > 0 ? true : false);
-    setDeleteChosenId(val);
+    setDeleteChosenId({...DeleteChosenId, [type]: val});
+    console.log(DeleteChosenId, "DCI56");
     setDeleteType(type);
   };
 
   const multiDelete = async () => {
+    console.log(DeleteType, DeleteChosenId, "DTDCI");
     await axiosBackend
       .post(`/delete/${DeleteType}`, {
-        id: DeleteChosenId,
+        id: DeleteChosenId[DeleteType],
       })
       .then((response) => {
+        console.log(response, "RESPUNIT");
         setDeleted(!Deleted);
         setRerender(true);
       })
@@ -355,6 +370,17 @@ export default function CMUnit(props) {
     props.filteredDataJarak,
   ]);
 
+  const idxTab = {
+    0:"merek-model-varian",
+    1: "tahun-pembuatan",
+    2: "jarak-tempuh",
+    3: "warna",
+    4: "bahan-bakar",
+    5: "transmisi",
+    6: "kondisi",
+    7: "jenis-unit",
+  }
+
   return (
     <>
       <div>
@@ -373,8 +399,12 @@ export default function CMUnit(props) {
                   setFilteredData([]);
                   setActiveSubPage(index);
                   currentSubTab(index);
-                  setDeleteChosenId(false);
-                  setDeleteButton(false)
+                  // setDeleteChosenId([]);
+                  console.log(DeleteChosenId,index, "DCI");
+                  console.log(idxTab[index], "DCI2");
+                  setDeleteType(idxTab[index])
+                  console.log(DeleteChosenId['bahan-bakar'], "DCI3");
+                  setDeleteButton(DeleteChosenId[idxTab[index]].length)
                 }}
                 sx={{ marginRight: 1.5, marginBottom: 1.5 }}
               >

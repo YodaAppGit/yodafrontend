@@ -11,7 +11,7 @@ const TEXTS = {
     button: "Masuk",
   },
   form1: {
-    header1: "Daftar Akun Baru",
+    header1: "Daftar akun baru",
     header2: "Masukan data untuk melanjutkan",
     email: "Email",
     password: "Kata sandi",
@@ -19,7 +19,7 @@ const TEXTS = {
     submitButton: "Lanjutkan",
   },
   form2: {
-    header1: "Daftar Akun Baru",
+    header1: "Daftar akun baru",
     header2: "Masukan data untuk melanjutkan",
     fullName: "Nama lengkap sesuai KTP",
     phoneNumber: "Nomor telepon",

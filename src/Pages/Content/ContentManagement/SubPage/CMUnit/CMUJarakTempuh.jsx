@@ -246,6 +246,7 @@ export default function CMUJarakTempuh(props) {
           rows={Data}
           checkboxSelection
           onSelectionModelChange={(newId) => {
+            
             props.changeIcons(newId, "jarak-tempuh");
             console.log(newId);
           }}

@@ -41,7 +41,6 @@ export default function CMEdit(props) {
   const { data, reload, field, dataSent, sendToast } = props;
   const { setMenuAnchorEl } = props;
   const [Switch, setSwitch] = useState(false);
-  console.log(data,"CMEDIT44");
   //   const [ListKantor, setListKantor] = useState([]);
   //   const [ListRoles, setListRoles] = useState([]);
 
@@ -83,8 +82,6 @@ export default function CMEdit(props) {
 
     useEffect(() => {
       loadPIC()
-      console.log(field, "74747474")
-      console.log(InputNama, "NAMANAMA")
       // loadRoles();
     }, []);
 
@@ -498,7 +495,6 @@ export default function CMEdit(props) {
     await axiosBackend
       .post(queryParams[type].url, queryParams[type].queryData)
       .then((res) => {
-        console.log(res, "CMEDIT");
         setMenuAnchorEl(null);
         sendToast()
         // reload()

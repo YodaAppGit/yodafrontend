@@ -2484,7 +2484,7 @@ export default function MyAppbar(props) {
               justifyContent="flex-end"
               sx={{ height: 100 }}
             >
-              <Typography variant="h6" noWrap component="div">
+              <Typography variant="h6" noWrap component="div" style={{ fontWeight:900 }}>
                 {header}
               </Typography>
               <Box
@@ -2504,7 +2504,7 @@ export default function MyAppbar(props) {
                       key={index}
                       label={tM.label}
                       disableRipple
-                      sx={{ textTransform: "capitalize" }}
+                      sx={{ textTransform: "capitalize", color:"#A0A4A8" }}
                     />
                   ))}
                 </Tabs>

@@ -155,7 +155,6 @@ export default function UserManagementPage(props) {
       user.created_at = local;
       user.index = index + 1;
     });
-    console.log(tempUsers, "TURTURTUR");
     setRejectedData(tempUsers);
   }
 
@@ -230,7 +229,6 @@ export default function UserManagementPage(props) {
 
   const searchedData = (key, val) => {
     if (key === "waiting") {
-      console.log("SDW", val);
       val = val.filter((user) => {
         return (
           user?.role?.name !== "Super Admin" &&
@@ -240,25 +238,20 @@ export default function UserManagementPage(props) {
 
       val = val.filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i);
 
-      console.log(val, "VAL");
 
       val.forEach((user, index) => {
-        console.log("index", index);
         user.index = index + 1;
       });
       setWaitingData(val);
     } else if (key === "accepted") {
-      console.log("SDA");
       val = val.filter((user) => {
         return user.user_status.toString().toLowerCase() !== "rejected";
       });
 
       val = val.filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i);
 
-      console.log(val, "VAL");
 
       val.forEach((user, index) => {
-        console.log("index", index);
         user.index = index + 1;
       });
       setAcceptedData(val);

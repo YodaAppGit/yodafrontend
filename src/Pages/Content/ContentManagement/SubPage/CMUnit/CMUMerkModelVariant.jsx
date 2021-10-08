@@ -28,7 +28,8 @@ export default function CMUMerkModelVariant(props) {
 
   const [Data, setData] = useState([]);
   const [isEditPop, setEditPop] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState([]);
+  const [isi, setIsi] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -385,9 +386,12 @@ export default function CMUMerkModelVariant(props) {
           columns={DATAGRID_COLUMNS}
           rows={filteredData}
           checkboxSelection
+          selectionModel={!isi?[]:isi}
           onSelectionModelChange={(newId) => {
             props.changeIcons(newId, "merek-model-varian");
+            setIsi(newId)
             console.log(newId, "NEWID");
+            setTimeout(()=>{setIsi(null)},3000)
           }}
           disableColumnResize={false}
           disableSelectionOnClick

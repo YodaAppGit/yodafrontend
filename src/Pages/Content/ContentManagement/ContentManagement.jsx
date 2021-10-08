@@ -74,10 +74,8 @@ export default function ContentManagementPage() {
 
     val = val.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)
 
-    console.log(val,"VAL");
 
     val.forEach((user, index) => {
-      console.log("index",index)
       user.index = index + 1;
     });
     setFilteredData(val);
