@@ -88,6 +88,13 @@ export default function RegisterWeb(props) {
   const [placement, setPlacement] = useState();
 
   useEffect(() => {
+    if (numPass && PhoneNumberLength) {
+      setOpen3(false);
+  }});
+
+
+
+  useEffect(() => {
     if (EPValid && checkPass) {
       setEPCPValid(true);
     } else {
@@ -557,13 +564,20 @@ export default function RegisterWeb(props) {
                               }}
                             >
                               {emailSudahTerdaftar ? (
-                                <CloseIcon style={{ color: "red" }} />
+                                <>
+                                  <CloseIcon style={{ color: "red" }} />
+                                  <p style={{ margin: "0 auto" }}>
+                                    Email sudah terdaftar
+                                  </p>
+                                </>
                               ) : (
-                                <CheckIcon style={{ color: "green" }} />
+                                <>
+                                  <CheckIcon style={{ color: "green" }} />
+                                  <p style={{ margin: "0 auto" }}>
+                                    Email belum terdaftar
+                                  </p>
+                                </>
                               )}
-                              <p style={{ margin: "0 auto" }}>
-                                Email belum terdaftar
-                              </p>
                             </div>
                             <div
                               style={{
@@ -1120,6 +1134,7 @@ export default function RegisterWeb(props) {
                     color="primary"
                     size="large"
                     onClick={() => {
+
                       handleToLoginClick();
                       handleClick("right", false, 0);
                     }}
