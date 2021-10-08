@@ -88,6 +88,13 @@ export default function RegisterWeb(props) {
   const [placement, setPlacement] = useState();
 
   useEffect(() => {
+    if (numPass && PhoneNumberLength) {
+      setOpen3(false);
+  }});
+
+
+
+  useEffect(() => {
     if (EPValid && checkPass) {
       setEPCPValid(true);
     } else {
@@ -1127,6 +1134,7 @@ export default function RegisterWeb(props) {
                     color="primary"
                     size="large"
                     onClick={() => {
+
                       handleToLoginClick();
                       handleClick("right", false, 0);
                     }}
