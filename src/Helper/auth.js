@@ -9,7 +9,7 @@ class Auth
   login(params) {
     this.authenticated = true;
     this.token = params.token;
-    sessionStorage.setItem('token', params.token);
+    // sessionStorage.setItem('token', params.token);
     this.user = params.user;
     sessionStorage.setItem('user', JSON.stringify(params.user));
     localStorage.setItem('token', params.token);

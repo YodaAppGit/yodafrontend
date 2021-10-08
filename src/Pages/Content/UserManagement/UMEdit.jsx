@@ -125,7 +125,6 @@ export default function UMEdit(props) {
         <InputLabel htmlFor="input-1">Kantor</InputLabel>
         <Select labelId="location" id="location" value={InputLocation}>
           {ListKantor?.map((data, idx) => {
-            console.log(data, "DATALISTKANTOR");
             console.log(InputLocation);
             return (
               <MenuItem

@@ -70,12 +70,14 @@ export default function LoginPage() {
       email: InputEmail.value,
       password: InputPassword.value
     })
-    .then((response) =>{ 
+    .then( async (response) =>{ 
       if(response.data.message === "Reset Password"){
         history.push('/reset')
       } else {
         setInputEmail({...InputEmail, error: false})
         setInputPassword({...InputPassword, error: false})
+        console.log(response.data, "LOGINLOGIN");
+        sessionStorage.setItem('token', response.data.token);
         auth.login(response.data)
         history.push('/dashboard')
       }
