@@ -3,7 +3,7 @@ import axiosBackend from '../../../../../Helper/axiosBackend'
 import { Box } from '@mui/system'
 import { DataGrid } from '@mui/x-data-grid'
 import TextPrimarySecondary from '../../../../../Components/DataGridComponents/TextPrimarySecondary'
-import { Button, FormControl, InputLabel, OutlinedInput, Popover } from '@mui/material'
+import { Button, FormControl, InputLabel, OutlinedInput, Popover,Snackbar, } from '@mui/material'
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 
@@ -20,6 +20,7 @@ const INPUTS = [
 export default function CMSPenjual(props) {
   const [Data, setData] = useState([])
 
+  const [openSnack, setOpenSnack] = useState(false);
   const { dataSort,reload } = props;
 
   const dataType = {
@@ -182,6 +183,7 @@ export default function CMSPenjual(props) {
     })
     .then((response) => {
       console.log(response.data)
+      setOpenSnack(true)
       setMenuAnchorEl(null)
       ResetInputs()
       LoadData()
@@ -216,6 +218,18 @@ export default function CMSPenjual(props) {
       />
     );
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
   
   // function StylingNameIdCode(params) {
   //   // console.log(params)
@@ -337,6 +351,13 @@ export default function CMSPenjual(props) {
           }}
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   )
 }

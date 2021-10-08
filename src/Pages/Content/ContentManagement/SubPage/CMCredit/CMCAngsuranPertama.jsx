@@ -16,19 +16,8 @@ export default function CMCAngsuranPertama(props) {
 
   const { dataSort, reload } = props;
 
-  const [open, setOpen] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   useEffect(() => {
     setMenuAnchorEl(null);
@@ -141,6 +130,7 @@ export default function CMCAngsuranPertama(props) {
     .then((response) => {
       console.log(response.data)
       setMenuAnchorEl(null)
+      setOpenSnack(true)
       ResetInputs()
       LoadData()
     })
@@ -159,28 +149,40 @@ export default function CMCAngsuranPertama(props) {
         row={params.row}
         // reload={reload}
         fromTable={params.field}
-        sendToast={handleClick}
+        // sendToast={handleClick}
         fromPage={"CM"}
         dataSent={LoadData}
       />
     );
   }
 
-  const action = (
-    <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+  // const action = (
+  //   <React.Fragment>
+  //     <Button color="secondary" size="small" onClick={handleClose}>
+  //       UNDO
+  //     </Button>
+  //     <IconButton
+  //       size="small"
+  //       aria-label="close"
+  //       color="inherit"
+  //       onClick={handleClose}
+  //     >
+  //       <CloseIcon fontSize="small" />
+  //     </IconButton>
+  //   </React.Fragment>
+  // );
 
   return (
     <>
@@ -242,11 +244,11 @@ export default function CMCAngsuranPertama(props) {
         />
       </Box>
       <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-        message="Success"
-        action={action}
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
       />
     </>
   )

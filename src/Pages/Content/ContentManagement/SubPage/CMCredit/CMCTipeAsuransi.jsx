@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axiosBackend from '../../../../../Helper/axiosBackend'
 import { Box } from '@mui/system'
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, FormControl, InputLabel, OutlinedInput, Popover } from '@mui/material'
+import { Button, FormControl, InputLabel, OutlinedInput, Popover,Snackbar, } from '@mui/material'
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 
@@ -12,6 +12,7 @@ const INPUTS = [
 
 export default function CMCTipeAsuransi(props) {
   const [Data, setData] = useState([])
+  const [openSnack, setOpenSnack] = useState(false);
   const { dataSort,reload } = props;
 
   const dataType = {
@@ -125,6 +126,7 @@ export default function CMCTipeAsuransi(props) {
     .then((response) => {
       console.log(response.data)
       setMenuAnchorEl(null)
+      setOpenSnack(true)
       ResetInputs()
       LoadData()
     })
@@ -148,6 +150,18 @@ export default function CMCTipeAsuransi(props) {
       />
     );
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   return (
     <>
@@ -208,6 +222,13 @@ export default function CMCTipeAsuransi(props) {
           }}
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   )
 }

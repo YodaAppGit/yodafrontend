@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/system'
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, FormControl, InputLabel, OutlinedInput, Popover } from '@mui/material'
+import { Button, FormControl, InputLabel, OutlinedInput, Popover, Snackbar } from '@mui/material'
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import axios from 'axios'
@@ -14,6 +14,7 @@ const INPUTS = [
 export default function CMUTahun(props) {
   console.log('props CMTahun => ', props)
   const [Data, setData] = useState([])
+  const [openSnack, setOpenSnack] = useState(false);
   const baseURL= process.env.REACT_APP_BACKEND_ENDPOINT_DEV
   const thisToken = sessionStorage.getItem('token')
   const { isFilter, filteredDataTahun, reload } = props;
@@ -37,7 +38,7 @@ export default function CMUTahun(props) {
       tempData.forEach((dat, idx) => {
         dat.index = idx + 1;
       });
-      setData(tempData)
+      // setData(tempData)
       setData(tempData)
      })
   }
@@ -146,6 +147,7 @@ export default function CMUTahun(props) {
       tahun: InputTahun.value,
     })
     .then((response) => {
+      setOpenSnack(true)
       console.log(response.data, "INSERTTAHUN")
       setMenuAnchorEl(null)
       ResetInputs()
@@ -171,6 +173,18 @@ export default function CMUTahun(props) {
       />
     );
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   return (
     <>
@@ -231,6 +245,13 @@ export default function CMUTahun(props) {
           disableSelectionOnClick
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   )
 }

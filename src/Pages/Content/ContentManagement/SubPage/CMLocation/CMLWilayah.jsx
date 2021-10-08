@@ -13,6 +13,7 @@ import {
   Popover,
   Select,
   MenuItem,
+  Snackbar,
 } from "@mui/material";
 import DynamicContentMenu from "../../../../../Components/Menus/DynamicContentMenu";
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
@@ -28,6 +29,7 @@ const INPUTS = [
 export default function CMLWilayah(props) {
   console.log("props CMLWilayah", props);
   const [Data, setData] = useState([]);
+  const [openSnack, setOpenSnack] = useState(false);
   const [Wilayah, setWilayah] = useState([]);
   const [ProvinsiArr, setProvinsiArr] = useState([]);
   const [Provinsi, setProvinsi] = useState([]);
@@ -273,6 +275,7 @@ export default function CMLWilayah(props) {
       .then((response) => {
         console.log(response.data);
         setMenuAnchorEl(null);
+        setOpenSnack(true)
         ResetInputs();
         LoadData();
       })
@@ -314,6 +317,18 @@ export default function CMLWilayah(props) {
       />
     );
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   function StylingDateRegister(params) {
     return <DateRegister created_at={params.row.tanggal_registrasi} />;
@@ -514,6 +529,13 @@ export default function CMLWilayah(props) {
           }}
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   );
 }

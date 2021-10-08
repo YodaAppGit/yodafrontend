@@ -8,6 +8,7 @@ import {
   OutlinedInput,
   Popover,
   Typography,
+  Snackbar,
 } from "@mui/material";
 import DynamicContentMenu from "../../../../../Components/Menus/DynamicContentMenu";
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
@@ -27,9 +28,9 @@ export default function CMUMerkModelVariant(props) {
   // console.log('thisToken CMUJarakTempuh', thisToken)
 
   const [Data, setData] = useState([]);
+  const [openSnack, setOpenSnack] = useState(false);
   const [isEditPop, setEditPop] = useState(false);
   const [anchorEl, setAnchorEl] = useState([]);
-  const [isi, setIsi] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -234,6 +235,7 @@ export default function CMUMerkModelVariant(props) {
       })
       .then((response) => {
         console.log(response.data);
+        setOpenSnack(true)
         setMenuAnchorEl(null);
         ResetInputs();
         LoadData();
@@ -242,6 +244,18 @@ export default function CMUMerkModelVariant(props) {
         console.warn(err.response);
       });
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   const DATAGRID_COLUMNS = [
     { field: "index", headerName: "#" },
@@ -386,12 +400,9 @@ export default function CMUMerkModelVariant(props) {
           columns={DATAGRID_COLUMNS}
           rows={filteredData}
           checkboxSelection
-          selectionModel={!isi?[]:isi}
           onSelectionModelChange={(newId) => {
             props.changeIcons(newId, "merek-model-varian");
-            setIsi(newId)
             console.log(newId, "NEWID");
-            setTimeout(()=>{setIsi(null)},3000)
           }}
           disableColumnResize={false}
           disableSelectionOnClick
@@ -417,6 +428,13 @@ export default function CMUMerkModelVariant(props) {
           <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
         </Popover> */}
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   );
 }

@@ -3,7 +3,7 @@ import axiosBackend from '../../../../../Helper/axiosBackend'
 import { Box } from '@mui/system'
 import { DataGrid } from '@mui/x-data-grid'
 import TextPrimarySecondary from '../../../../../Components/DataGridComponents/TextPrimarySecondary'
-import { Button, FormControl, InputLabel, OutlinedInput, Popover, Select, MenuItem } from '@mui/material'
+import { Button, FormControl, InputLabel, OutlinedInput, Popover, Select, MenuItem,Snackbar, } from '@mui/material'
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import DateRegister from '../../../../../Components/DataGridComponents/DateRegister'
@@ -19,6 +19,7 @@ const INPUTS = [
 
 export default function CMLKantor(props) {
   const [Data, setData] = useState([])
+  const [openSnack, setOpenSnack] = useState(false);
   const [PICArr, setPICArr] = useState([])
 
   const { dataSort, reload } = props;
@@ -192,6 +193,7 @@ export default function CMLKantor(props) {
     .then((response) => {
       console.log(response.data)
       setMenuAnchorEl(null)
+      setOpenSnack(true)
       ResetInputs()
       LoadData()
     })
@@ -241,6 +243,18 @@ export default function CMLKantor(props) {
       <DateRegister created_at={params.row.tanggal_registrasi} />
     )
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   return (
     <>
@@ -357,6 +371,13 @@ export default function CMLKantor(props) {
           }}
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   )
 }

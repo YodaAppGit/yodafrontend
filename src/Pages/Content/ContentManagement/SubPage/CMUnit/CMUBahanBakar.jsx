@@ -7,6 +7,7 @@ import {
   InputLabel,
   OutlinedInput,
   Popover,
+  Snackbar
 } from "@mui/material";
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import DynamicContentMenu from "../../../../../Components/Menus/DynamicContentMenu";
@@ -20,6 +21,7 @@ const INPUTS = [
 
 export default function CMUBahanBakar(props) {
   const [Data, setData] = useState([]);
+  const [openSnack, setOpenSnack] = useState(false);
   const baseURL = process.env.REACT_APP_BACKEND_ENDPOINT_DEV;
   const thisToken = sessionStorage.getItem("token");
 
@@ -136,6 +138,7 @@ export default function CMUBahanBakar(props) {
         console.log(response.data);
         setMenuAnchorEl(null);
         ResetInputs();
+        setOpenSnack(true)
         LoadData();
       })
       .catch((err) => {
@@ -166,6 +169,18 @@ export default function CMUBahanBakar(props) {
       />
     );
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   return (
     <>
@@ -243,6 +258,13 @@ export default function CMUBahanBakar(props) {
           disableSelectionOnClick
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   );
 }

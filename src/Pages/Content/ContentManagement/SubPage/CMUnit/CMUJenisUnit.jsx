@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/system'
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, FormControl, InputLabel, OutlinedInput, Popover } from '@mui/material'
+import { Button, FormControl, InputLabel, OutlinedInput, Popover,Snackbar, } from '@mui/material'
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 import axios from 'axios'
@@ -14,6 +14,7 @@ const INPUTS = [
 
 export default function CMUJenisUnit(props) {
   const [Data, setData] = useState([])
+  const [openSnack, setOpenSnack] = useState(false);
   const baseURL= process.env.REACT_APP_BACKEND_ENDPOINT_DEV
   const thisToken = sessionStorage.getItem('token')
 
@@ -130,6 +131,7 @@ export default function CMUJenisUnit(props) {
     .then((response) => {
       console.log(response.data)
       setMenuAnchorEl(null)
+      setOpenSnack(true)
       ResetInputs()
       LoadData()
     })
@@ -153,6 +155,18 @@ export default function CMUJenisUnit(props) {
       />
     );
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   return (
     <>
@@ -213,6 +227,13 @@ export default function CMUJenisUnit(props) {
           disableSelectionOnClick
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   )
 }

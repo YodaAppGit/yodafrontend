@@ -7,6 +7,7 @@ import {
   InputLabel,
   OutlinedInput,
   Popover,
+  Snackbar,
 } from "@mui/material";
 import DynamicContentMenu from "../../../../../Components/Menus/DynamicContentMenu";
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
@@ -20,6 +21,7 @@ const INPUTS = [
 export default function CMUJarakTempuh(props) {
   // console.log('props CMUJarakTempuh', props)
   const [Data, setData] = useState([]);
+  const [openSnack, setOpenSnack] = useState(false);
   const [filteredDataJarak, setFilteredDataJarak] = useState([]);
   const baseURL = process.env.REACT_APP_BACKEND_ENDPOINT_DEV;
   const thisToken = sessionStorage.getItem("token");
@@ -143,6 +145,7 @@ export default function CMUJarakTempuh(props) {
       .then((response) => {
         console.log(response.data);
         setMenuAnchorEl(null);
+        setOpenSnack(true)
         ResetInputs();
         LoadData();
       })
@@ -174,6 +177,18 @@ export default function CMUJarakTempuh(props) {
       />
     );
   }
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   return (
     <>
@@ -246,7 +261,7 @@ export default function CMUJarakTempuh(props) {
           rows={Data}
           checkboxSelection
           onSelectionModelChange={(newId) => {
-            
+
             props.changeIcons(newId, "jarak-tempuh");
             console.log(newId);
           }}
@@ -254,6 +269,13 @@ export default function CMUJarakTempuh(props) {
           disableSelectionOnClick
         />
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleCloseSnack}
+        message={`Sukses menambahkan`}
+        // action={action}
+      />
     </>
   );
 }
