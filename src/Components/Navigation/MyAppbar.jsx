@@ -2472,7 +2472,7 @@ export default function MyAppbar(props) {
             color="inherit"
             aria-label="open drawer"
             onClick={(e) => setMenuAnchorEl(e.currentTarget)}
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, mb:3 }}
           >
             <SortIcon
               sx={{ color: isMainMenuOpen ? "primary.main" : "inherit" }}

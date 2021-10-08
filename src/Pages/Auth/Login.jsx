@@ -80,6 +80,7 @@ export default function LoginPage() {
         sessionStorage.setItem('token', response.data.token);
         auth.login(response.data)
         history.push('/dashboard')
+        window.location.reload()
       }
     })
     .catch((err) => { 

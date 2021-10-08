@@ -9,6 +9,8 @@ import AcceptingAction from "../../../Components/DataGridComponents/AcceptingAct
 
 export default function UMWaiting(props) {
   console.log("props wait", props);
+  const token = sessionStorage.getItem('token');
+  console.log(token, "TOKENWAITING")
   // const { data, reload } = props;
   const { reload } = props;
   const [data, setdata] = useState(props.data);
