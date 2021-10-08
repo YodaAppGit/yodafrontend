@@ -269,6 +269,7 @@ export default function CMUMerkModelVariant(props) {
   }
   
   async function InsertData() {
+    console.log(thisToken, "TT")
     await axios
     .post(`${baseURL}/cm/merek-model-varian`, {
       headers: {
@@ -279,7 +280,7 @@ export default function CMUMerkModelVariant(props) {
       varian: InputVarian.value,
     })
     .then((response) => {
-      // console.log(response.data)
+      console.log(response.data)
       
       setMenuAnchorEl(null);
       ResetInputs();
