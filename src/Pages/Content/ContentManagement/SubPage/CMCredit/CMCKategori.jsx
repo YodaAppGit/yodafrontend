@@ -18,6 +18,12 @@ export default function CMCKategori(props) {
   const dataType = {
     "kategori":"kategori"
   }
+
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
   
   function sortAsc(type) {
     const mydata = [...Data].sort((a, b) => {
@@ -198,6 +204,10 @@ export default function CMCKategori(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "kategori");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

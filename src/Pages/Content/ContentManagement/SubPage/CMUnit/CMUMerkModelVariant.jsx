@@ -387,7 +387,7 @@ export default function CMUMerkModelVariant(props) {
           checkboxSelection
           onSelectionModelChange={(newId) => {
             props.changeIcons(newId, "merek-model-varian");
-            console.log(newId);
+            console.log(newId, "NEWID");
           }}
           disableColumnResize={false}
           disableSelectionOnClick

@@ -30,6 +30,12 @@ export default function CMCAngsuranPertama(props) {
     setOpen(false);
   };
 
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
+
   const dataType = {
     "angsuranPertama": "angsuran_pertama",
   }
@@ -229,6 +235,10 @@ export default function CMCAngsuranPertama(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "angsuran-pertama");
+            console.log(newId);
+          }}
         />
       </Box>
       <Snackbar

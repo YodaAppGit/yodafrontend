@@ -18,6 +18,12 @@ export default function CMCNilaiPertanggungan(props) {
   const dataType = {
     "nilaiPertanggungan": "nilai_pertanggungan",
   }
+
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
   
   function sortAsc(type) {
     const mydata = [...Data].sort((a, b) => {
@@ -197,6 +203,10 @@ export default function CMCNilaiPertanggungan(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "nilai-pertanggungan");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

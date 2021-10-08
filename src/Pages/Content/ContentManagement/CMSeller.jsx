@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Button, Collapse, Stack } from "@mui/material";
+import Delete from "@mui/icons-material/Delete";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import axiosBackend from "../../../Helper/axiosBackend";
 
 import CMSPenjual from "./SubPage/CMSeller/CMSPenjual";
 
@@ -19,6 +21,10 @@ const top100Films = [
 export default function CMSeller(props) {
   const [ActiveSubPage, setActiveSubPage] = useState(0);
   const { currentSubTab, dataSort, filteredData } = props;
+  const [DeleteButton, setDeleteButton] = useState(false);
+  const [DeleteChosenId, setDeleteChosenId] = useState([]);
+  const [DeleteType, setDeleteType] = useState(false);
+  const [Deleted, setDeleted] = useState(false);
 
   const [MenuanchorEl, setMenuAnchorEl] = useState(null);
   const isMenuOpen = Boolean(MenuanchorEl);
@@ -26,6 +32,28 @@ export default function CMSeller(props) {
   useEffect(() => {
     currentSubTab(0)
   }, [])
+
+  const changeIcons = (val, type) => {
+    console.log("masuk sini ");
+    setDeleteButton(val.length > 0 ? true : false);
+    setDeleteChosenId(val);
+    setDeleteType(type);
+  };
+
+  const multiDelete = async () => {
+    await axiosBackend
+      .post(`/delete/${DeleteType}`, {
+        id: DeleteChosenId,
+      })
+      .then((response) => {
+        setDeleted(!Deleted);
+        setDeleteButton(!DeleteButton)
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.warn(err.response);
+      });
+  };
 
   const TABS = [
     {
@@ -40,6 +68,8 @@ export default function CMSeller(props) {
           ActiveSubPage={ActiveSubPage}
           dataSort={dataSort}
           filteredData={filteredData}
+          changeIcons={changeIcons}
+          val={Deleted}
         />
       ),
     },
@@ -59,6 +89,9 @@ export default function CMSeller(props) {
                 onClick={() => {
                   setActiveSubPage(index);
                   currentSubTab(index);
+                  // setFilteredData([]);
+                  props.cleanFilteredData();
+                  setDeleteChosenId(false);
                 }}
                 sx={{ marginRight: 1.5, marginBottom: 1.5 }}
               >
@@ -67,15 +100,27 @@ export default function CMSeller(props) {
             ))}
           </Box>
           <Box>
-            <Button
-              variant="contained"
-              size="large"
-              color="switch"
-              startIcon={<AddCircleIcon />}
-              onClick={(e) => setMenuAnchorEl(e.currentTarget)}
-            >
-              {"Tambah"}
-            </Button>
+            {!DeleteButton ? (
+              <Button
+                variant="contained"
+                size="large"
+                color="switch"
+                startIcon={<AddCircleIcon />}
+                onClick={(e) => setMenuAnchorEl(e.currentTarget)}
+              >
+                {"Tambah"}
+              </Button>
+            ) : (
+              <Button
+                size="large"
+                variant="outlined"
+                color="error"
+                startIcon={<Delete />}
+                onClick={multiDelete}
+              >
+                {"Hapus"}
+              </Button>
+            )}
           </Box>
         </Stack>
       </Box>

@@ -65,9 +65,7 @@ export default function UMAccepted(props) {
   useEffect(() => {
     if (props.filteredData.length === 0) {
       handleChangeTab(ActiveSubPage);
-      console.log("IFIFIFIFIFIFIFIFIFI", props.filteredData);
     } else {
-      console.log("ELSEELSEELSEELSE", props.filteredData);
       let val;
       if (ActiveRole === 0) {
         val = props.filteredData.filter((user) => {

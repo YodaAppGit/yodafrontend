@@ -5,6 +5,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CMLKantor from "./SubPage/CMLocation/CMLKantor";
 import CMLWilayah from "./SubPage/CMLocation/CMLWilayah";
 import Delete from "@mui/icons-material/Delete";
+import axiosBackend from "../../../Helper/axiosBackend";
 
 export default function CMLocation(props) {
   console.log("props CMLocation", props);
@@ -26,17 +27,18 @@ export default function CMLocation(props) {
   };
 
   const multiDelete = async () => {
-    // await axiosBackend
-    //   .post(`/delete/${DeleteType}`, {
-    //     id: DeleteChosenId,
-    //   })
-    //   .then((response) => {
-    //     setDeleted(!Deleted);
-    //     console.log(response.data);
-    //   })
-    //   .catch((err) => {
-    //     console.warn(err.response);
-    //   });
+    await axiosBackend
+      .post(`/delete/${DeleteType}`, {
+        id: DeleteChosenId,
+      })
+      .then((response) => {
+        setDeleted(!Deleted);
+        setDeleteButton(!DeleteButton)
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.warn(err.response);
+      });
   };
 
   useEffect(() => {
@@ -61,9 +63,10 @@ export default function CMLocation(props) {
           filteredData={filteredData}
           dataSort={dataSort}
           changeIcons={changeIcons}
-        />
-      ),
-    },
+          val={Deleted}
+          />
+          ),
+        },
     {
       index: 1,
       label: "Wilayah",
@@ -79,6 +82,7 @@ export default function CMLocation(props) {
           filteredDataWilayah={filteredDataWilayah}
           isFilter={isFilter}
           changeIcons={changeIcons}
+          val={Deleted}
         />
       ),
     },
@@ -99,6 +103,7 @@ export default function CMLocation(props) {
                   props.cleanFilteredData();
                   setActiveSubPage(index);
                   currentSubTab(index);
+                  setDeleteChosenId(false);
                 }}
                 sx={{ marginRight: 1.5, marginBottom: 1.5 }}
               >

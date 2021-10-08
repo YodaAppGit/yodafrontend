@@ -246,6 +246,12 @@ export default function CMLWilayah(props) {
     }
   }
 
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
+
   function ResetInputs() {
     setInputProvince(INPUTS[0]);
     setInputCity(INPUTS[1]);
@@ -254,7 +260,7 @@ export default function CMLWilayah(props) {
   }
 
   async function InsertData() {
-    await axios.post(`${process.env.REACT_APP_BACKEND_ENDPOINT_PROD}/cm/wilayah/insert`, {
+    await axios.post(`${process.env.REACT_APP_BACKEND_ENDPOINT_DEV}/cm/wilayah/insert`, {
         provinsi: Provinsi,
         kota: Kota,
         kecamatan: Kecamatan,
@@ -502,6 +508,10 @@ export default function CMLWilayah(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "wilayah");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

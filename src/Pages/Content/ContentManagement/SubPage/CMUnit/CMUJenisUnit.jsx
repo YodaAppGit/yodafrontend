@@ -5,6 +5,8 @@ import { Button, FormControl, InputLabel, OutlinedInput, Popover } from '@mui/ma
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 import axios from 'axios'
+import axiosBackend from '../../../../../Helper/axiosBackend';
+
 
 const INPUTS = [
   { label: 'Jenis unit', value: '', error: false, disabled: false,},
@@ -122,10 +124,7 @@ export default function CMUJenisUnit(props) {
   }
 
   async function InsertData() {
-    await axios.post(`${baseURL}/cm/jenis-unit/insert`, {
-      headers: {
-        Authorization: `Bearer ${thisToken}`,
-      },
+    await axiosBackend.post(`/cm/jenis-unit/insert`, {
       jenis_unit: InputJenisUnit.value,
     })
     .then((response) => {

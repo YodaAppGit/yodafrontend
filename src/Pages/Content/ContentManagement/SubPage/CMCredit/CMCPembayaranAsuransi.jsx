@@ -18,6 +18,12 @@ export default function CMCPembayaranAsuransi(props) {
   const dataType = {
     "pembayaranAsuransi": "pembayaran_asuransi",
   }
+
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
   
   function sortAsc(type) {
     const mydata = [...Data].sort((a, b) => {
@@ -197,6 +203,10 @@ export default function CMCPembayaranAsuransi(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "pembayaran-asuransi");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

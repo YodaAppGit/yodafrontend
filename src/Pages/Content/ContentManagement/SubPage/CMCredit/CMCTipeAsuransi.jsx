@@ -17,6 +17,12 @@ export default function CMCTipeAsuransi(props) {
   const dataType = {
     "tipeAsuransi": "tipe_asuransi",
   }
+
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
   
   function sortAsc(type) {
     const mydata = [...Data].sort((a, b) => {
@@ -196,6 +202,10 @@ export default function CMCTipeAsuransi(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "tipe-asuransi");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

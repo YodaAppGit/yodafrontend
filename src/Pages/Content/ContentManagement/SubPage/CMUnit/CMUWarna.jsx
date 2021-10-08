@@ -5,6 +5,7 @@ import { Button, FormControl, InputLabel, OutlinedInput, Popover } from '@mui/ma
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import axios from 'axios'
+import axiosBackend from '../../../../../Helper/axiosBackend'
 
 const INPUTS = [
   { label: 'Warna', value: '', error: false, disabled: false,},
@@ -121,10 +122,7 @@ export default function CMUWarna(props) {
   }
 
   async function InsertData() {
-    await axios.post(`${baseURL}/cm/warna/insert`, {
-      headers: {
-        Authorization: `Bearer ${thisToken}`,
-      },
+    await axiosBackend.post(`/cm/warna/insert`, {
       warna: InputWarna.value,
     })
     .then((response) => {

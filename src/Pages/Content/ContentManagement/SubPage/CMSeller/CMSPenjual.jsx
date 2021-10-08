@@ -156,6 +156,12 @@ export default function CMSPenjual(props) {
     }
   }
 
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
+
   function ResetInputs() {
     setInputName(INPUTS[0])
     setInputTelephone(INPUTS[1])
@@ -325,6 +331,10 @@ export default function CMSPenjual(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "penjual");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

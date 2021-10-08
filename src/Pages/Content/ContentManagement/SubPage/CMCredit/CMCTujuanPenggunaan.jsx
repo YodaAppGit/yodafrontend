@@ -19,6 +19,12 @@ export default function CMCTujuanPenggunaan(props) {
     "tujuanPengunaan": "tujuan_penggunaan",
 
   }
+
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
   
   function sortAsc(type) {
     const mydata = [...Data].sort((a, b) => {
@@ -199,6 +205,10 @@ export default function CMCTujuanPenggunaan(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "tujuan-penggunaan");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

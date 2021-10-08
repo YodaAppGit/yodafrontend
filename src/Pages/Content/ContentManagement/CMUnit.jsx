@@ -374,6 +374,7 @@ export default function CMUnit(props) {
                   setActiveSubPage(index);
                   currentSubTab(index);
                   setDeleteChosenId(false);
+                  setDeleteButton(false)
                 }}
                 sx={{ marginRight: 1.5, marginBottom: 1.5 }}
               >

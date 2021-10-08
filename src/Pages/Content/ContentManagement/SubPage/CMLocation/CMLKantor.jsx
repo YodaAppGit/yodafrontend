@@ -120,6 +120,12 @@ export default function CMLKantor(props) {
     }
   }, [props.filteredData])
 
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
+
   async function LoadData() {
     await axiosBackend.get('/cm/kantor')
     .then((response) => { 
@@ -175,6 +181,7 @@ export default function CMLKantor(props) {
   }
 
   async function InsertData() {
+    console.log(InputPIC.value, "PICPIC");
     await axiosBackend.post('/cm/kantor/insert', {
       nama_cabang: InputName.value,
       no_telepon: InputTelephone.value,
@@ -344,6 +351,10 @@ export default function CMLKantor(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "kantor");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

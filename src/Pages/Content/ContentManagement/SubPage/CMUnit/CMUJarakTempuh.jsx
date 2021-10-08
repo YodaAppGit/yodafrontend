@@ -11,6 +11,7 @@ import {
 import DynamicContentMenu from "../../../../../Components/Menus/DynamicContentMenu";
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import axios from "axios";
+import axiosBackend from "../../../../../Helper/axiosBackend";
 
 const INPUTS = [
   { label: "Jarak tempuh", value: "", error: false, disabled: false },
@@ -135,11 +136,8 @@ export default function CMUJarakTempuh(props) {
   }
 
   async function InsertData() {
-    await axios
+    await axiosBackend
       .post("/cm/jarak-tempuh/insert", {
-        headers: {
-          Authorization: `Bearer ${thisToken}`,
-        },
         jarak_tempuh: InputJarakTempuh.value,
       })
       .then((response) => {

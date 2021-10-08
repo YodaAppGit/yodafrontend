@@ -5,6 +5,7 @@ import { Button, FormControl, InputLabel, OutlinedInput, Popover } from '@mui/ma
 import PopupEdit from "../../../../../Components/DataGridComponents/PopupEdit";
 import DynamicContentMenu from '../../../../../Components/Menus/DynamicContentMenu'
 import axios from 'axios'
+import axiosBackend from '../../../../../Helper/axiosBackend';
 
 const INPUTS = [
   { label: 'Kondisi unit', value: '', error: false, disabled: false,},
@@ -122,10 +123,7 @@ export default function CMUKondisiUnit(props) {
   }
 
   async function InsertData() {
-    await axios.post(`${baseURL}/cm/kondisi/insert`, {
-      headers: {
-        Authorization: `Bearer ${thisToken}`,
-      },
+    await axiosBackend.post(`/cm/kondisi/insert`, {
       kondisi: InputKondisiUnit.value,
     })
     .then((response) => {

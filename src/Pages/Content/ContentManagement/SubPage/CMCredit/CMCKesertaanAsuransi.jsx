@@ -19,6 +19,12 @@ export default function CMCKesertaanAsuransi(props) {
     "kesertaanAsuransi": "kesertaan_asuransi",
 
   }
+
+  useEffect(() => {
+    setMenuAnchorEl(null);
+    ResetInputs();
+    LoadData();
+  }, [props.val]);
   
   function sortAsc(type) {
     const mydata = [...Data].sort((a, b) => {
@@ -198,6 +204,10 @@ export default function CMCKesertaanAsuransi(props) {
           checkboxSelection
           disableColumnResize={false}
           disableSelectionOnClick
+          onSelectionModelChange={(newId) => {
+            props.changeIcons(newId, "kesertaan-asuransi");
+            console.log(newId);
+          }}
         />
       </Box>
     </>

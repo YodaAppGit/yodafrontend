@@ -13,7 +13,6 @@ import SingleLine from './SingleLine'
 
 export default function PopupEdit(props) {
   const { reload, dataSent, row, fromTable, fromPage, params, sendToast } = props;
-  console.warn(fromTable, "FT");
 
   const [MenuanchorEl, setMenuAnchorEl] = useState(null);
   const isMainMenuOpen = Boolean(MenuanchorEl);
