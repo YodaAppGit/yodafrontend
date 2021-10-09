@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\KeywordTrait;
 use App\Models\CardRefinancing;
 use App\Models\Credit;
 use App\Models\Nasabah;
@@ -11,37 +12,7 @@ use Illuminate\Http\Request;
 
 class RefinancingController extends Controller
 {
-
-    public function mobileCardCount($type)
-    {
-        if ($this->checkPermission(auth()->user(), 'mobile-login') == false) {
-            return response([
-                'message' => 'Unauthorized.'
-            ], 403);
-        }
-        if ($type == 'financing' || $type == 'refinancing') {
-            $cards = CardRefinancing::where('type', $type)->get();
-            $pipelines = [
-                'unit_listing',
-                'slik_checking',
-                'assigning_credit_surveyor',
-                'credit_surveying',
-                'credit_approval',
-                'credit_purchasing_order',
-                'credit_rejected',
-                'slik_rejected',
-            ];
-            $result = [];
-            foreach ($pipelines as $pipeline) {
-                $result[$pipeline] = $cards->where($pipeline, 1)->count();
-            }
-            return response($result, 200);
-        }
-
-        return response([
-            'message' => 'Invalid Type.'
-        ], 403);
-    }
+    use KeywordTrait;
 
     public function createNasabah($nama, $no_ktp, $provinsi, $kota, $kecamatan, $no_hp, $card_id)
     {
@@ -164,7 +135,16 @@ class RefinancingController extends Controller
             $unit->image_links = $this->getImageList($unit->id, 'units');
 
             $card = $this->createCardRefinancing($unit->id);
-            $nasabah = $this->createNasabah($nama, $no_ktp, $provinsi, $kota, $kecamatan, $no_hp, $card->id);
+            $this->cardRefinancingKeyword($card->id);
+            $nasabah = $this->createNasabah(
+                $request->input('nama'),
+                $request->input('no_ktp'),
+                $request->input('provinsi'),
+                $request->input('kota'),
+                $request->input('kecamatan'),
+                $request->input('no_hp'),
+                $card->id
+            );
 
             return response($unit, 201);
         }

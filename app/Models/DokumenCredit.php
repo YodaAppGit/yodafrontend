@@ -13,4 +13,9 @@ class DokumenCredit extends Model
         'credit_id',
         'keterangan'
     ];
+
+    public function credit()
+    {
+        return $this->belongsTo(Credit::class, 'credit_id', 'id');
+    }
 }

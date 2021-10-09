@@ -21,31 +21,31 @@ class ImageController extends Controller
 
     public function deleteMulti(Request $request)
     {
-        $ids = $request->input('id');
+        $ids = explode(',', $request->input('id'));
         $table = $request->input('table');
-        foreach ($ids as $id) {
-            $image = Image::find($id);
+        if (count($ids) > 0) {
+            foreach ($ids as $id) {
+                $image = Image::find($id);
 
-            if ($image) {
-
-                if (Storage::exists('public/' . $table . '/' . $image->file_name)) {
-                    Storage::delete('public/' . $table . '/' . $image->file_name);
+                if ($image) {
+                    if (Storage::exists('public/' . $table . '/' . $image->file_name)) {
+                        Storage::delete('public/' . $table . '/' . $image->file_name);
+                    }
+                    $image->delete();
                 }
-                $image->delete();
+                return response([
+                    'message' => 'Image Not Found'
+                ], 400);
             }
-            return response([
-                'message' => 'Image Not Found'
-            ], 400);
         }
-
         return response([
             'message' => 'Success'
         ], 200);
     }
 
-    public function setUnitCover($id)
+    public function setUnitCover(Request $request)
     {
-        $image = Image::find($id);
+        $image = Image::where('link', $request->input('link'))->first();
         $unit = Unit::find($image->assoc_id);
 
         if (!$image || !$unit) {
@@ -62,15 +62,14 @@ class ImageController extends Controller
         ], 200);
     }
 
-    public function uploadMultiImage(Request $request)
+    public function uploadMultiUnitImage(Request $request)
     {
         $fields = $request->validate([
-            'table' => 'required|string',
             'id' => 'required',
             'pictures' => 'required',
             'pictures.*' => 'image|mimes:jpeg,png,jpg',
         ]);
-        $table = $request->input('table');
+        $table = 'units';
         $id = $request->input('id');
 
         $data = DB::table($table)->where('id', $id)->first();

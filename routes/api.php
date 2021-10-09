@@ -4,6 +4,7 @@ use App\Http\Controllers\AngsuranPertamaController;
 use App\Http\Controllers\BahanBakarController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ContentManagementController;
+use App\Http\Controllers\CreditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DokumenNasabahController;
 use App\Http\Controllers\ExcelController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\NilaiPertanggunganController;
 use App\Http\Controllers\PembayaranAsuransiController;
 use App\Http\Controllers\PenjualController;
+use App\Http\Controllers\RefinancingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TahunPembuatanController;
 use App\Http\Controllers\TenorController;
@@ -30,6 +32,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarnaController;
 use App\Http\Controllers\WilayahController;
+use App\Models\DokumenCredit;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -204,10 +207,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/cm/penjual/delete/{id}', [PenjualController::class, 'destroy']);
     //Route::resource('/cm/penjual', PenjualController::class);
 
-    //Mobile Dashboard Route
-    Route::get('/m/card-count/{type}', [CardController::class, 'mobileCardCount']);
-    Route::resource('/m/card', CardController::class);
-
     //Unit
     Route::get('/unit', [UnitController::class, 'index']);
     Route::post('/unit', [UnitController::class, 'storeFinancing']);
@@ -242,14 +241,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //image
     Route::post('/delete/unit-images', [ImageController::class, 'deleteMulti']);
-    Route::get('/set/unit-cover/{id}', [ImageController::class, 'setUnitCover']);
+    Route::post('/set/unit-cover', [ImageController::class, 'setUnitCover']);
     Route::post('/upload/unit-images', [ImageController::class, 'uploadMultiUnitImage']);
 
     //Cards
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'getSingle']);
     Route::post('/financing/pipeline', [CardController::class, 'changePipeline']);
-
+    //Mobile Dashboard Route
+    Route::get('/m/card-count/{type}', [CardController::class, 'mobileCardCount']);
+    Route::resource('/m/card', CardController::class);
 
     //Nasabah
     //info
@@ -264,6 +265,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/fin-dok-nasabah/insert', [DokumenNasabahController::class, 'storeDokumen']);
     Route::post('/fin-dok-nasabah/keterangan', [DokumenNasabahController::class, 'getDokumenByKeterangan']);
     Route::post('/fin-dok-nasabah/delete', [DokumenNasabahController::class, 'deleteDokumen']);
+
+    //Credit
+    Route::post('/fin-credit/insert', [CreditController::class, 'storeCredit']);
+    Route::post('/fin-credit/update', [CreditController::class, 'updateAll']);
+    Route::GET('/fin-credit/info/{id}', [CreditController::class, 'getCreditInfo']);
+    Route::post('/fin-credit/update/no-kontrak', [CreditController::class, 'updateNoKontrak']);
+    //dokumen credit
+    Route::get('/fin-dok-credit/credit/{id}', [DokumenCredit::class, 'allNasabahDokumen']);
+    Route::post('/fin-dok-credit/insert', [DokumenCredit::class, 'storeDokumen']);
+    Route::post('/fin-dok-credit/keterangan', [DokumenCredit::class, 'getDokumenByKeterangan']);
+    Route::post('/fin-dok-credit/delete', [DokumenCredit::class, 'deleteDokumen']);
+
 
     //Kanban
     //financing
@@ -289,4 +302,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/re-credit-po-cards', [DashboardController::class, 'getRefinancingCreditPO']);
     Route::get('/re-credit-rejected-cards', [DashboardController::class, 'getRefinancingCreditRejected']);
     Route::get('/re-silk-rejected-cards', [DashboardController::class, 'getRefinancingRejected']);
+    Route::post('/refinancing/insert', [RefinancingController::class, 'storeRefinancing']);
+    Route::post('/refinancing/pipeline', [RefinancingController::class, 'changePipeline']);
 });

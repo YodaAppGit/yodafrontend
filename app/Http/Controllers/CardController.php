@@ -6,6 +6,7 @@ use App\Http\Traits\ImageTrait;
 use App\Http\Traits\KeywordTrait;
 use App\Http\Traits\PermissionTrait;
 use App\Models\Card;
+use App\Models\CardRefinancing;
 use App\Models\Penjual;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class CardController extends Controller
                 'message' => 'Unauthorized.'
             ], 403);
         }
-        if ($type == 'financing' || $type == 'refinancing') {
+        if ($type == 'financing') {
             $cards = Card::where('type', $type)->get();
             $pipelines = [
                 'unit_listing',
@@ -34,6 +35,23 @@ class CardController extends Controller
                 'credit_purchasing_order',
                 'credit_rejected',
                 'unit_not_available',
+            ];
+            $result = [];
+            foreach ($pipelines as $pipeline) {
+                $result[$pipeline] = $cards->where($pipeline, 1)->count();
+            }
+            return response($result, 200);
+        } else if ($type ==  'refinancing') {
+            $cards = CardRefinancing::where('type', $type)->get();
+            $pipelines = [
+                'unit_listing',
+                'slik_checking',
+                'assigning_credit_surveyor',
+                'credit_surveying',
+                'credit_approval',
+                'credit_purchasing_order',
+                'credit_rejected',
+                'slik_rejected',
             ];
             $result = [];
             foreach ($pipelines as $pipeline) {
