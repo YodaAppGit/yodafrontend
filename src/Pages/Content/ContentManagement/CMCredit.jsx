@@ -19,7 +19,16 @@ export default function CMCredit(props) {
 
   const [MenuanchorEl, setMenuAnchorEl] = useState(null);
   const [DeleteButton, setDeleteButton] = useState(false);
-  const [DeleteChosenId, setDeleteChosenId] = useState([]);
+  const [DeleteChosenId, setDeleteChosenId] = useState({
+    "tujuan-penggunaan":[],
+    "kategori":[],
+    "tipe-asuransi":[],
+    "kesertaan-asuransi":[],
+    "nilai-pertanggungan":[],
+    "pembayaran-asuransi":[],
+    "tenor":[],
+    "angsuran-pertama":[],
+  });
   const [DeleteType, setDeleteType] = useState(false);
   const [Deleted, setDeleted] = useState(false);
   const isMenuOpen = Boolean(MenuanchorEl);
@@ -31,18 +40,17 @@ export default function CMCredit(props) {
   const changeIcons = (val, type) => {
     console.log("masuk sini ");
     setDeleteButton(val.length > 0 ? true : false);
-    setDeleteChosenId(val);
+    setDeleteChosenId({...DeleteChosenId, [type]: val});
     setDeleteType(type);
   };
 
   const multiDelete = async () => {
     await axiosBackend
       .post(`/delete/${DeleteType}`, {
-        id: DeleteChosenId,
+        id: DeleteChosenId[DeleteType],
       })
       .then((response) => {
         setDeleted(!Deleted);
-        setDeleteButton(!DeleteButton)
         console.log(response.data);
       })
       .catch((err) => {
@@ -188,6 +196,17 @@ export default function CMCredit(props) {
       ),
     },
   ];
+  
+  const idxTab = {
+    0 : "tujuan-penggunaan",
+    1 : "kategori",
+    2 : "tipe-asuransi",
+    3 : "kesertaan-asuransi",
+    4 : "nilai-pertanggungan",
+    5 : "pembayaran-asuransi",
+    6 : "tenor",
+    7 : "angsuran-pertama",
+  }
 
   return (
     <>
@@ -204,7 +223,8 @@ export default function CMCredit(props) {
                   setActiveSubPage(index);
                   currentSubTab(index);
                   props.cleanFilteredData();
-                  setDeleteChosenId(false);
+                  setDeleteType(idxTab[index])
+                  setDeleteButton(DeleteChosenId[idxTab[index]].length)
                 }}
                 sx={{ marginRight: 1.5, marginBottom: 1.5 }}
               >

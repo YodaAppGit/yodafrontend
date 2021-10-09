@@ -13,7 +13,10 @@ export default function CMLocation(props) {
   const { currentSubTab, dataSort, filteredDataWilayah, isFilter, filteredData, reload } = props;
   // const [filteredData, setFilteredData] = useState(props.filteredData)
   const [DeleteButton, setDeleteButton] = useState(false);
-  const [DeleteChosenId, setDeleteChosenId] = useState([]);
+  const [DeleteChosenId, setDeleteChosenId] = useState({
+    "kantor":[],
+    "wilayah":[],
+  });
   const [DeleteType, setDeleteType] = useState(false);
   const [Deleted, setDeleted] = useState(false);
   const [MenuanchorEl, setMenuAnchorEl] = useState(null);
@@ -22,19 +25,18 @@ export default function CMLocation(props) {
   const changeIcons = (val, type) => {
     console.log("masuk sini ");
     setDeleteButton(val.length > 0 ? true : false);
-    setDeleteChosenId(val);
+    setDeleteChosenId({...DeleteChosenId, [type]: val});
     setDeleteType(type);
   };
 
   const multiDelete = async () => {
     await axiosBackend
       .post(`/delete/${DeleteType}`, {
-        id: DeleteChosenId,
+        id: DeleteChosenId[DeleteType],
       })
       .then((response) => {
         setDeleted(!Deleted);
-        setDeleteButton(!DeleteButton)
-        console.log(response.data);
+        // setDeleteButton(!DeleteButton)s
       })
       .catch((err) => {
         console.warn(err.response);
@@ -88,6 +90,11 @@ export default function CMLocation(props) {
     },
   ];
 
+  const idxTab = {
+    0: "kantor",
+    1: "wilayah",
+  }
+
   return (
     <>
       <Box sx={{ paddingBottom: 2 }}>
@@ -103,7 +110,8 @@ export default function CMLocation(props) {
                   props.cleanFilteredData();
                   setActiveSubPage(index);
                   currentSubTab(index);
-                  setDeleteChosenId(false);
+                  setDeleteType(idxTab[index])
+                  setDeleteButton(DeleteChosenId[idxTab[index]].length)
                 }}
                 sx={{ marginRight: 1.5, marginBottom: 1.5 }}
               >

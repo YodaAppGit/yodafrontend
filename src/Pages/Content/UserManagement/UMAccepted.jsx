@@ -553,12 +553,6 @@ export default function UMAccepted(props) {
           //   )
           //   console.log(selectedRowData);
           // }}
-          onSelectionModelChange={(rows) => {
-            console.log(
-              "ACCEPTACCEPTACCEPTACCEPTACCEPTACCEPTACCEPTACCEPTACCEPTACCEPTACCEPT",
-              rows
-            );
-          }}
           onCellClick={(e) => {
             setMenuAnchorEl(true);
             setEditData(e);

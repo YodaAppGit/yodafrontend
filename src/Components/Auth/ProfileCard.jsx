@@ -79,6 +79,7 @@ export default function ProfileCard() {
   const Logout = () => {
     auth.logout();
     history.push("/login");
+    window.location.reload()
   };
 
   return (

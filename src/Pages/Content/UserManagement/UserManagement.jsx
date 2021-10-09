@@ -238,7 +238,6 @@ export default function UserManagementPage(props) {
 
       val = val.filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i);
 
-
       val.forEach((user, index) => {
         user.index = index + 1;
       });
@@ -249,7 +248,6 @@ export default function UserManagementPage(props) {
       });
 
       val = val.filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i);
-
 
       val.forEach((user, index) => {
         user.index = index + 1;

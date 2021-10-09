@@ -22,7 +22,9 @@ export default function CMSeller(props) {
   const [ActiveSubPage, setActiveSubPage] = useState(0);
   const { currentSubTab, dataSort, filteredData } = props;
   const [DeleteButton, setDeleteButton] = useState(false);
-  const [DeleteChosenId, setDeleteChosenId] = useState([]);
+  const [DeleteChosenId, setDeleteChosenId] = useState({
+    "penjual":[],
+  });
   const [DeleteType, setDeleteType] = useState(false);
   const [Deleted, setDeleted] = useState(false);
 
@@ -36,18 +38,17 @@ export default function CMSeller(props) {
   const changeIcons = (val, type) => {
     console.log("masuk sini ");
     setDeleteButton(val.length > 0 ? true : false);
-    setDeleteChosenId(val);
+    setDeleteChosenId({...DeleteChosenId, [type]: val});
     setDeleteType(type);
   };
 
   const multiDelete = async () => {
     await axiosBackend
       .post(`/delete/${DeleteType}`, {
-        id: DeleteChosenId,
+        id: DeleteChosenId[DeleteType],
       })
       .then((response) => {
         setDeleted(!Deleted);
-        setDeleteButton(!DeleteButton)
         console.log(response.data);
       })
       .catch((err) => {
@@ -75,6 +76,10 @@ export default function CMSeller(props) {
     },
   ];
 
+  const idxTab = {
+    0: "penjual",
+  }
+
   return (
     <>
       <Box sx={{ paddingBottom: 2 }}>
@@ -89,9 +94,9 @@ export default function CMSeller(props) {
                 onClick={() => {
                   setActiveSubPage(index);
                   currentSubTab(index);
-                  // setFilteredData([]);
                   props.cleanFilteredData();
-                  setDeleteChosenId(false);
+                  setDeleteType(idxTab[index])
+                  setDeleteButton(DeleteChosenId[idxTab[index]].length)
                 }}
                 sx={{ marginRight: 1.5, marginBottom: 1.5 }}
               >

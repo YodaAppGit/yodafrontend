@@ -125,6 +125,8 @@ export default function CMLKantor(props) {
     setMenuAnchorEl(null);
     ResetInputs();
     LoadData();
+
+    console.log("VAL GANTI");
   }, [props.val]);
 
   async function LoadData() {

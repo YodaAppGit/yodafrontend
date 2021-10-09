@@ -192,6 +192,7 @@ export default function UMEdit(props) {
   };
 
   const handleEditUser = async () => {
+    console.log(sessionStorage.getItem("token"),"HANDLEEDITUSER");
     if (field === "name") {
       await axiosBackend
         .post("/um/updateNamaEmail", {

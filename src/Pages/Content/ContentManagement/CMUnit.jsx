@@ -68,6 +68,7 @@ export default function CMUnit(props) {
         console.log(response, "RESPUNIT");
         setDeleted(!Deleted);
         setRerender(true);
+        console.log(DeleteChosenId, "DCIMM");
       })
       .catch((err) => {
         console.warn(err.response);
